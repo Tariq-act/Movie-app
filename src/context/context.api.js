@@ -53,10 +53,7 @@ export const MovieProvider = ({ children }) => {
       filterList = filterList.filter((item) =>
         item.vote_average.toFixed(0).includes(selectRating)
       );
-    } else if (selectRating === '') {
-      filterList = movieList;
     }
-
     setMovieList(filterList);
   };
 
