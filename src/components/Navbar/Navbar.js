@@ -5,7 +5,7 @@ import { MovieContext } from '../../context/context.api';
 import './Navbar.styles.css';
 
 const Navbar = () => {
-  const { handleSearch, search, selectRating, handleRating } =
+  const { handleSearch, search, selectRating, handleRating, date, handleDate } =
     useContext(MovieContext);
 
   return (
@@ -29,6 +29,9 @@ const Navbar = () => {
             <option value='8'>8</option>
             <option value='9'>9</option>
           </select>
+        </div>
+        <div className='dateFilter'>
+          <input type='date' value={date} onChange={handleDate} />
         </div>
         <div className='search-field'>
           <input

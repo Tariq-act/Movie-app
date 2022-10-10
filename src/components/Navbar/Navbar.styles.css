@@ -24,7 +24,8 @@
   align-items: center;
 }
 
-.search-field input {
+.search-field input,
+.dateFilter input {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 10px;
@@ -45,6 +46,8 @@
 
 .ratingFilter select:focus {
   outline: none;
+}
+.dateFilter input {
 }
 
 @media (max-width: 650px) {

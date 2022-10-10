@@ -11,16 +11,7 @@ export const MovieProvider = ({ children }) => {
   const [search, setSearch] = useState('');
   const [selectRating, setSelectRating] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-
-  const nextPage = () => {
-    setCurrentPage((prev) => prev + 1);
-  };
-
-  const prevPage = () => {
-    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
-  };
-
-  console.log(currentPage);
+  const [date, setDate] = useState('');
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -29,6 +20,18 @@ export const MovieProvider = ({ children }) => {
 
   const handleRating = (e) => {
     setSelectRating(e.target.value);
+  };
+
+  const handleDate = (e) => {
+    setDate(e.target.value);
+  };
+
+  const nextPage = () => {
+    setCurrentPage((prev) => prev + 1);
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
   };
 
   useEffect(() => {
@@ -59,18 +62,28 @@ export const MovieProvider = ({ children }) => {
   // filter
   const applyFilter = () => {
     let filterList = movieList;
-    // console.log(filterList);
+
     if (selectRating) {
       filterList = filterList.filter((item) =>
         item.vote_average.toFixed(0).includes(selectRating)
       );
     }
+
+    let y = parseInt(date.substring(0, 4));
+    if (date) {
+      filterList = filterList.filter((item) => {
+        let movieYear = parseInt(item.release_date.substring(0, 4));
+        console.log(movieYear, y);
+        return y === movieYear;
+      });
+    }
+
     setMovieList(filterList);
   };
 
   useEffect(() => {
     applyFilter();
-  }, [selectRating]);
+  }, [selectRating, date]);
 
   return (
     <MovieContext.Provider
@@ -82,6 +95,8 @@ export const MovieProvider = ({ children }) => {
         handleRating,
         nextPage,
         prevPage,
+        date,
+        handleDate,
       }}
     >
       {children}
