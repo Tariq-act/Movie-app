@@ -39,7 +39,7 @@ export const MovieProvider = ({ children }) => {
   useEffect(() => {
     const getMovieData = async () => {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/popular?page=${currentPage}`
+        `https://movie-task.vercel.app/api/popular?page=${currentPage}`
       );
       const data = await response.json();
 
@@ -69,7 +69,7 @@ export const MovieProvider = ({ children }) => {
     if (selectRating) {
       const getMovieData = async () => {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/popular?page=${currentPage}`
+          `https://movie-task.vercel.app/api/popular?page=${currentPage}`
         );
         const data = await response.json();
         let filterList = data.data.results.filter(
@@ -89,7 +89,7 @@ export const MovieProvider = ({ children }) => {
     if (date) {
       const getMovieData = async () => {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/popular?page=${currentPage}`
+          `https://movie-task.vercel.app/api/popular?page=${currentPage}`
         );
         const data = await response.json();
         let filterList = data.data.results.filter((item) => {
@@ -104,15 +104,6 @@ export const MovieProvider = ({ children }) => {
     }
     // eslint-disable-next-line
   }, [date, currentPage]);
-
-  let filterList = movieList;
-
-  if (selectRating) {
-    filterList = filterList.filter(
-      (item) => item.vote_average.toFixed(0) === selectRating
-    );
-  }
-  console.log(filterList);
 
   return (
     <MovieContext.Provider
