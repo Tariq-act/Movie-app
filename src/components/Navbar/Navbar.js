@@ -36,6 +36,7 @@ const Navbar = () => {
             type='search'
             placeholder='Search...'
             onChange={handleSearch}
+            onSubmit={handleSearch}
           />
         </div>
       </div>

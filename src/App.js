@@ -3,6 +3,7 @@ import MovieList from './components/MovieList/MovieList';
 import Navbar from './components/Navbar/Navbar';
 import { Routes, Route, Link } from 'react-router-dom';
 import MovieDetail from './components/MovieDetail/MovieDetail';
+import Paginate from './components/paginate/Paginate';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <div>
               <Navbar />
               <div className='container'>
+                <Paginate />
                 <MovieList />
               </div>
             </div>

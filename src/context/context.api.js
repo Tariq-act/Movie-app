@@ -10,6 +10,17 @@ export const MovieProvider = ({ children }) => {
   const [movieList, setMovieList] = useState([]);
   const [search, setSearch] = useState('');
   const [selectRating, setSelectRating] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const nextPage = () => {
+    setCurrentPage((prev) => prev + 1);
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
+  console.log(currentPage);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -23,19 +34,19 @@ export const MovieProvider = ({ children }) => {
   useEffect(() => {
     const getMovieData = async () => {
       const response = await fetch(
-        'https://movie-task.vercel.app/api/popular?page=1'
+        `https://movie-task.vercel.app/api/popular?page=${currentPage}`
       );
       const data = await response.json();
       setMovieList(data.data.results);
     };
     getMovieData();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     if (search) {
       const searchFilter = async () => {
         const response = await fetch(
-          `https://movie-task.vercel.app/api/search?page=1&query=${search}`
+          `https://movie-task.vercel.app/api/search?page=${currentPage}&query=${search}`
         );
         const data = await response.json();
         setMovieList(data.data.results);
@@ -43,7 +54,7 @@ export const MovieProvider = ({ children }) => {
 
       searchFilter();
     }
-  }, [search]);
+  }, [search, currentPage]);
 
   // filter
   const applyFilter = () => {
@@ -63,7 +74,15 @@ export const MovieProvider = ({ children }) => {
 
   return (
     <MovieContext.Provider
-      value={{ movieList, handleSearch, search, selectRating, handleRating }}
+      value={{
+        movieList,
+        handleSearch,
+        search,
+        selectRating,
+        handleRating,
+        nextPage,
+        prevPage,
+      }}
     >
       {children}
     </MovieContext.Provider>
