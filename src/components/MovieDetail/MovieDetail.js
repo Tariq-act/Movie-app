@@ -8,6 +8,7 @@ const MovieDetail = () => {
   useEffect(() => {
     fetchData();
     window.scrollTo(0, 0);
+    // eslint-disable-next-line
   }, []);
   const url = 'https://image.tmdb.org/t/p/original';
   const { id } = useParams();

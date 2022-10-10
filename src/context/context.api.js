@@ -81,6 +81,7 @@ export const MovieProvider = ({ children }) => {
     } else if (selectRating === '') {
       setMovieList(list);
     }
+    // eslint-disable-next-line
   }, [selectRating, currentPage]);
 
   useEffect(() => {
@@ -101,33 +102,8 @@ export const MovieProvider = ({ children }) => {
     } else if (date === '') {
       setMovieList(list);
     }
+    // eslint-disable-next-line
   }, [date, currentPage]);
-
-  // filter
-  // const applyFilter = () => {
-  //   let filterList = movieList;
-
-  //   if (selectRating) {
-  //     filterList = filterList.filter(
-  //       (item) => item.vote_average.toFixed(0) === selectRating
-  //     );
-  //   }
-
-  //   let y = parseInt(date.substring(0, 4));
-  //   if (date) {
-  //     filterList = filterList.filter((item) => {
-  //       let movieYear = parseInt(item.release_date.substring(0, 4));
-  //       console.log(movieYear, y);
-  //       return y === movieYear;
-  //     });
-  //   }
-
-  //   setMovieList(filterList);
-  // };
-
-  // useEffect(() => {
-  //   applyFilter();
-  // }, [selectRating, date]);
 
   let filterList = movieList;
 
