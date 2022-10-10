@@ -15,7 +15,7 @@ const MovieDetail = () => {
 
   const fetchData = async () => {
     const response = await fetch(
-      `https://movie-task.vercel.app/api/movie?movieId=${id}`
+      `${process.env.REACT_APP_API_URL}/movie?movieId=${id}`
     );
     const data = await response.json();
     setCurrentMovie(data.data);

@@ -8,6 +8,7 @@ export const MovieContext = createContext(initialState);
 
 export const MovieProvider = ({ children }) => {
   const [movieList, setMovieList] = useState([]);
+  const [list, setList] = useState([]);
   const [search, setSearch] = useState('');
   const [selectRating, setSelectRating] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,22 +35,26 @@ export const MovieProvider = ({ children }) => {
     if (currentPage > 1) setCurrentPage((prev) => prev - 1);
   };
 
+  // Full page Render
   useEffect(() => {
     const getMovieData = async () => {
       const response = await fetch(
-        `https://movie-task.vercel.app/api/popular?page=${currentPage}`
+        `${process.env.REACT_APP_API_URL}/popular?page=${currentPage}`
       );
       const data = await response.json();
+
       setMovieList(data.data.results);
+      setList(data.data.results);
     };
     getMovieData();
   }, [currentPage]);
 
+  // Search filter  Render
   useEffect(() => {
     if (search) {
       const searchFilter = async () => {
         const response = await fetch(
-          `https://movie-task.vercel.app/api/search?page=${currentPage}&query=${search}`
+          `${process.env.REACT_APP_API_URL}/search?page=${currentPage}&query=${search}`
         );
         const data = await response.json();
         setMovieList(data.data.results);
@@ -59,31 +64,79 @@ export const MovieProvider = ({ children }) => {
     }
   }, [search, currentPage]);
 
-  // filter
-  const applyFilter = () => {
-    let filterList = movieList;
-
+  // Select Rating filter
+  useEffect(() => {
     if (selectRating) {
-      filterList = filterList.filter((item) =>
-        item.vote_average.toFixed(0).includes(selectRating)
-      );
+      const getMovieData = async () => {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/popular?page=${currentPage}`
+        );
+        const data = await response.json();
+        let filterList = data.data.results.filter(
+          (item) => item.vote_average.toFixed(0) === selectRating
+        );
+        setMovieList(filterList);
+      };
+      getMovieData();
+    } else if (selectRating === '') {
+      setMovieList(list);
     }
-
-    let y = parseInt(date.substring(0, 4));
-    if (date) {
-      filterList = filterList.filter((item) => {
-        let movieYear = parseInt(item.release_date.substring(0, 4));
-        console.log(movieYear, y);
-        return y === movieYear;
-      });
-    }
-
-    setMovieList(filterList);
-  };
+  }, [selectRating, currentPage]);
 
   useEffect(() => {
-    applyFilter();
-  }, [selectRating, date]);
+    let y = parseInt(date.substring(0, 4));
+    if (date) {
+      const getMovieData = async () => {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/popular?page=${currentPage}`
+        );
+        const data = await response.json();
+        let filterList = data.data.results.filter((item) => {
+          let movieYear = parseInt(item.release_date.substring(0, 4));
+          return y === movieYear;
+        });
+        setMovieList(filterList);
+      };
+      getMovieData();
+    } else if (date === '') {
+      setMovieList(list);
+    }
+  }, [date, currentPage]);
+
+  // filter
+  // const applyFilter = () => {
+  //   let filterList = movieList;
+
+  //   if (selectRating) {
+  //     filterList = filterList.filter(
+  //       (item) => item.vote_average.toFixed(0) === selectRating
+  //     );
+  //   }
+
+  //   let y = parseInt(date.substring(0, 4));
+  //   if (date) {
+  //     filterList = filterList.filter((item) => {
+  //       let movieYear = parseInt(item.release_date.substring(0, 4));
+  //       console.log(movieYear, y);
+  //       return y === movieYear;
+  //     });
+  //   }
+
+  //   setMovieList(filterList);
+  // };
+
+  // useEffect(() => {
+  //   applyFilter();
+  // }, [selectRating, date]);
+
+  let filterList = movieList;
+
+  if (selectRating) {
+    filterList = filterList.filter(
+      (item) => item.vote_average.toFixed(0) === selectRating
+    );
+  }
+  console.log(filterList);
 
   return (
     <MovieContext.Provider
