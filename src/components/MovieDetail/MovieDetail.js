@@ -21,8 +21,6 @@ const MovieDetail = () => {
     setCurrentMovie(data.data);
   };
 
-  console.log(currentMovie);
-
   return (
     currentMovie && (
       <div className='movie'>
