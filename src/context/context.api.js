@@ -61,7 +61,10 @@ export const MovieProvider = ({ children }) => {
       };
 
       searchFilter();
+    } else if (search === '') {
+      setMovieList(list);
     }
+    // eslint-disable-next-line
   }, [search, currentPage]);
 
   // Select Rating filter
