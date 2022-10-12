@@ -54,10 +54,11 @@ export const MovieProvider = ({ children }) => {
     if (search) {
       const searchFilter = async () => {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/search?page=${currentPage}&query=${search}`
+          `https://movie-task.vercel.app/api/search?page=${currentPage}&query=${search}`
         );
         const data = await response.json();
         setMovieList(data.data.results);
+        console.log(data.data.results);
       };
 
       searchFilter();
