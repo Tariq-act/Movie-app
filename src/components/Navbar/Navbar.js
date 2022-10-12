@@ -1,12 +1,30 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { MovieContext } from '../../context/context.api';
 
 import './Navbar.styles.css';
 
 const Navbar = () => {
-  const { handleSearch, search, selectRating, handleRating, date, handleDate } =
-    useContext(MovieContext);
+  const {
+    handleSearch,
+    search,
+    selectRating,
+    handleRating,
+    years,
+    handleYear,
+  } = useContext(MovieContext);
+  const [year, setYear] = useState([]);
+
+  let todayYear = new Date().getFullYear();
+  let totalYears = [];
+  for (let i = 0; i < 101; i++) {
+    totalYears.push(todayYear - i);
+  }
+  useEffect(() => {
+    setYear(totalYears);
+    // eslint-disable-next-line
+  }, []);
+  console.log(year);
 
   return (
     <div className='navbar'>
@@ -31,7 +49,15 @@ const Navbar = () => {
           </select>
         </div>
         <div className='dateFilter'>
-          <input type='date' value={date} onChange={handleDate} />
+          {/* <input type='date' value={date} onChange={handleDate} /> */}
+          <select name='year' id='' value={years} onChange={handleYear}>
+            <option value=''>Select Year</option>
+            {year.map((item, idx) => (
+              <option key={idx} value={`${item}`}>
+                {item}
+              </option>
+            ))}
+          </select>
         </div>
         <div className='search-field'>
           <input

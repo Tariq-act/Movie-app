@@ -25,12 +25,16 @@
 }
 
 .search-field input,
-.dateFilter input {
+.dateFilter select {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 10px;
   caret-color: #3330e4;
   transition: all 0.2s ease-in-out;
+}
+
+.dateFilter select {
+  scrollbar-width: none;
 }
 
 .search-field input:focus {
@@ -44,11 +48,21 @@
   border-radius: 10px;
 }
 
-.ratingFilter select:focus {
+.ratingFilter select:focus,
+.dateFilter select {
   outline: none;
 }
-.dateFilter input {
+
+::-webkit-scrollbar {
+  width: 0px;
 }
+/* ::-webkit-scrollbar-thumb {
+  background: #3330e4;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3330e457;
+} */
 
 @media (max-width: 650px) {
   .filters {

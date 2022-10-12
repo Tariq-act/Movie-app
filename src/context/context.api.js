@@ -12,7 +12,7 @@ export const MovieProvider = ({ children }) => {
   const [search, setSearch] = useState('');
   const [selectRating, setSelectRating] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [date, setDate] = useState('');
+  const [years, setYears] = useState('');
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -23,8 +23,8 @@ export const MovieProvider = ({ children }) => {
     setSelectRating(e.target.value);
   };
 
-  const handleDate = (e) => {
-    setDate(e.target.value);
+  const handleYear = (e) => {
+    setYears(e.target.value);
   };
 
   const nextPage = () => {
@@ -89,8 +89,8 @@ export const MovieProvider = ({ children }) => {
   }, [selectRating, currentPage]);
 
   useEffect(() => {
-    let y = parseInt(date.substring(0, 4));
-    if (date) {
+    let y = parseInt(years.substring(0, 4));
+    if (years) {
       const getMovieData = async () => {
         const response = await fetch(
           `https://movie-task.vercel.app/api/popular?page=${currentPage}`
@@ -103,11 +103,11 @@ export const MovieProvider = ({ children }) => {
         setMovieList(filterList);
       };
       getMovieData();
-    } else if (date === '') {
+    } else if (years === '') {
       setMovieList(list);
     }
     // eslint-disable-next-line
-  }, [date, currentPage]);
+  }, [years, currentPage]);
 
   return (
     <MovieContext.Provider
@@ -119,8 +119,8 @@ export const MovieProvider = ({ children }) => {
         handleRating,
         nextPage,
         prevPage,
-        date,
-        handleDate,
+        years,
+        handleYear,
       }}
     >
       {children}
