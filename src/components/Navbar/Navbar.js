@@ -24,7 +24,6 @@ const Navbar = () => {
     setYear(totalYears);
     // eslint-disable-next-line
   }, []);
-  console.log(year);
 
   return (
     <div className='navbar'>
